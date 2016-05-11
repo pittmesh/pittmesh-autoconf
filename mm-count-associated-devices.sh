@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 #
 # © 2016 Meta Mesh Wireless Communities. All rights reserved.
 # Licensed under the terms of the MIT license.

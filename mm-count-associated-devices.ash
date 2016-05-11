@@ -19,5 +19,5 @@ grep Interface | \
     stations="$(iw dev $dev station dump|grep Station|wc -l)"
     count=$(expr $count + $stations)
   done
-  cat $count
+  echo $count
 }

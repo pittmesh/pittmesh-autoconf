@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
 
 
 define Package/pittmesh-autoconf
-  SECTION:=utils
+  SECTION:=Utilities
   CATEGORY:=Utilities
   TITLE:=auto-configuration utility used for pittmesh
   DEPENDS:=
@@ -40,3 +40,4 @@ define Package/$(PKG_NAME)/install
         $(CP) $(PKG_BUILD_DIR)/$(PKG_NAME)/files/$(pittmesh_platform)/$(pittmesh_type) $(1)/etc/init.d/
 endef
 
+$(eval $(call Buildpackage,$(PKG_NAME)))

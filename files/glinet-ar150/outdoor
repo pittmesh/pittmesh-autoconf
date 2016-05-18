@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Configure host for outdoor use
+
+echo "pittmesh-autoconfig" > /etc/config/pittmesh

@@ -1,22 +1,30 @@
 # This is the prototype script which will be used to autoconfigure PittMesh DHCP-AP-Gateway routers for 2.4GHz
 
+# Update where OpenWRT pulls updates from.
 echo src/gz pittmesh openwrt.metamesh.org>> /etc/opkg.conf
 
 opkg update
 
+# Install a whole mess of packages to use with OLSR, iptables, and supporting packages.
 opkg install luci luci-ssl pciutils luci-app-olsr luci-app-olsr-services luci-app-olsr-viz olsrd olsrd-mod-arprefresh olsrd-mod-bmf olsrd-mod-dot-draw olsrd-mod-dyn-gw olsrd-mod-dyn-gw-plain olsrd-mod-httpinfo olsrd-mod-mdns olsrd-mod-nameservice olsrd-mod-p2pd olsrd-mod-pgraph olsrd-mod-secure olsrd-mod-txtinfo olsrd-mod-watchdog olsrd-mod-quagga wireless-tools luci-lib-json kmod-ipip ethtool snmpd iptables-mod-extra iptables-mod-iface iptables-mod-iprange
 
+# Check for updates to any packages
 for i in `opkg list-upgradable|cut -d " " -f 1`;do opkg install $i;done
 
+# Disable the RFC1918 filter in the webserver which would prevent you from accessing 100. mesh nodes.
 uci set uhttpd.main.rfc1918_filter=0; uci commit uhttpd
 
+# Restart uhttpd webserver and it will generate a new 1024 bit key.
 /etc/init.d/uhttpd restart
 
+# Disable ipv6 dhcp requests because we don't use them and they cause noise.
 /etc/init.d/odhcpd disable
+
+# Set snmp public community to PittMeshSNMP which will be autodiscovered by Meta Mesh's Cacti server.
 uci set snmpd.public.community=PittmeshSNMP
 /etc/init.d/snmpd enable
 
-
+# Set the timeserver to a node host on Mount Oliver who has a stratum 0 time server and set logs to go to Meta Mesh.
 uci set system.ntp=timeserver
 uci set system.ntp.enabled=1
 uci set system.ntp.enable_server=1
@@ -25,9 +33,11 @@ uci set system.@system[0].log_ip=10.10.220.225
 
 uci commit system
 
+# Forward all DNS requests to Meta Mesh's DNS server which looks for names on the mesh first. If they can't be resolved, send them to the Internet.
 uci set dhcp.@dnsmasq[0].server=96.89.42.101
 uci commit dhcp
 
+# Download the mac2ip conversion to convert your MAC address to IP's so that you can be sure they are unique on the mesh.
 wget https://raw.githubusercontent.com/pittmesh/pittmesh-autoconf/master/files/mac2ip.ash
 
 chmod 777 mac2ip.ash
@@ -36,32 +46,33 @@ ipMESH=$(./mac2ip.ash $(cat /sys/class/net/eth0/address));
 ipWLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
 ipHNA=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).0");
 
-
+# Set up interfaces and use the mac2ip script's conversions as IP addresses.
 uci set network.mesh=interface
 uci set network.mesh.proto=static
 uci set network.mesh.ipaddr=`echo $ipMESH`
 uci set network.mesh.netmask=255.192.0.0
 
-
-uci set network.wlan=interface
-uci set network.wlan.proto=static
-uci set network.wlan.ipaddr=`echo $ipWLAN`
-uci set network.wlan.netmask=255.255.255.0
-uci set network.lan._orig_ifname=eth1
-uci set network.lan._orig_bridge=true
+# Note: because we originally wrote the script for another device, we're calling the wlan variable. on ar150's the wlan and lan are bridged.
+uci set network.br-lan=interface
+uci set network.br-lan.proto=static
+uci set network.br-lan.ipaddr=`echo $ipWLAN`
+uci set network.br-lan.netmask=255.255.255.0
+uci set network.br-lan._orig_ifname=eth1
+uci set network.br-lan._orig_bridge=true
 uci commit network
 
+
 uci add dhcp dhcp
-uci set dhcp.@dhcp[2].interface=wlan
+uci set dhcp.@dhcp[2].interface=br-lan
 uci set dhcp.@dhcp[2].start=10
 uci set dhcp.@dhcp[2].limit=253
 uci set dhcp.@dhcp[2].leasetime=1h
 uci set dhcp.@dhcp[2].force=1
 uci commit dhcp
 
-
+# Set up the WiFi. Please change the SSID to PittMesh-youraddress-2401 for the first device, PittMesh-youraddress-2402 for the second device and so on. Max TX rate for the ar150 is 18dBm.
 uci delete wireless.radio0.disabled
-uci set wireless.radio0.txpower=30
+uci set wireless.radio0.txpower=18
 uci set wireless.radio0.country=US
 uci add wireless wifi-iface
 uci set wireless.@wifi-iface[1].device=radio0
@@ -70,10 +81,12 @@ uci set wireless.@wifi-iface[1].ssid=PittMesh-Backhaul
 uci set wireless.@wifi-iface[1].mode=adhoc
 uci set wireless.@wifi-iface[1].network=mesh
 uci set wireless.@wifi-iface[0].network=’wlan lan’
-uci set wireless.@wifi-iface[0].ssid=PittMesh-RANDOMSTRING-501
+uci set wireless.@wifi-iface[0].ssid=PittMesh-NEWNODE-2401
 uci set wireless.@wifi-iface[0].disabled=0
 uci commit wireless
 
+
+# Set HNA announcements for the LAN and Internet
 uci add olsrd Hna4
 uci set olsrd.@Hna4[0].netaddr=`echo $ipHNA`
 uci set olsrd.@Hna4[0].netmask=255.255.255.0
@@ -92,7 +105,7 @@ uci set olsrd.@Interface[1].Mode=ether
 uci set olsrd.@olsrd[0].LinkQualityAlgorithm=etx_ffeth
 uci commit olsrd
 
-
+# Set iptables rules to allow forwarding between interfaces.
 uci set firewall.@defaults[0].forward=ACCEPT
 uci set firewall.@zone[0].masq=1
 uci delete firewall.@zone[1]
@@ -130,8 +143,9 @@ uci delete firewall.@rule[0]
 uci delete firewall.@rule[0]
 uci commit firewall
 
+# Set custom firewall rules to disallow access to certain IP addresses typically used for private home networks. If you want to share a server on your home network, run OLSR on it and mesh it over ethernet with a 100. address OR connect it directly to a PittMesh router's LAN port and give it a static address between 10.x.x.2 and 9 (.254 is also available by default)
 echo iptables -I FORWARD -i wlan0-1 -d 192.168.0.0/16 -j DROP >> /etc/firewall.user
-echo iptables -I FORWARD -i wlan0-1 -d 10.0.0.0/8 -j DROP >> /etc/firewall.user
+echo iptables -I FORWARD -i wlan0-1 -d 10.1.10.0/24 -j DROP >> /etc/firewall.user
 echo iptables -I FORWARD -i wlan0-1 -d 172.16.0.0/16 -j DROP >> /etc/firewall.user
 
 

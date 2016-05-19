@@ -1,0 +1,11 @@
+The device set in DHCP-AP-Gateway configuration is the "standard" configuration for PittMesh routers. This configuration assumes that the device is
+A) connected to an upstream router on its WAN port and is receiving DHCP and gateway information from that router
+B) Serving clients in its WiFi cell as a normal Access Point would do
+c) Sharing its path to its hardwired, non-mesh gateway to the Internet.
+
+This is accomplished by 
+A) Setting the WAN interface to be configured via DHCP
+B) Ensuring the bridged LAN-WLAN interface has a DHCP server running on it and force serves a 10.x.x.x/24 IP address to connecting clients
+C) Creates an HNA announcement for 0.0.0.0/0 as well as the 10.x.x.x/24 subnet.
+
+This is meant to be a plug-and-plug configuration with changes needed only to the hostname and the AP SSID name.

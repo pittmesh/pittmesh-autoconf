@@ -145,7 +145,7 @@ uci commit firewall
 
 # Set custom firewall rules to disallow access to certain IP addresses typically used for private home networks. If you want to share a server on your home network, run OLSR on it and mesh it over ethernet with a 100. address OR connect it directly to a PittMesh router's LAN port and give it a static address between 10.x.x.2 and 9 (.254 is also available by default)
 echo iptables -I FORWARD -i wlan0-1 -d 192.168.0.0/16 -j DROP >> /etc/firewall.user
-echo iptables -I FORWARD -i wlan0-1 -d 10.1.10.0/24 -j DROP >> /etc/firewall.user
+echo iptables -I FORWARD -i wlan0-1 -d 10.0.0.0/8 -j DROP >> /etc/firewall.user
 echo iptables -I FORWARD -i wlan0-1 -d 172.16.0.0/16 -j DROP >> /etc/firewall.user
 
 

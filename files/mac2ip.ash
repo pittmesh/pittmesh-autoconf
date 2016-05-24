@@ -89,4 +89,4 @@ ip4=$(printf "%d" "0x$mac6")
 
 ip2=$((ip2%64 + 64))
 
-echo "Mesh $ip1.$ip2.$ip3.$ip4 LAN 10.$ip3.$ip4.1 Ethermesh 100.99.$ip4.$ip3"
+echo "$ip1.$ip2.$ip3.$ip4"

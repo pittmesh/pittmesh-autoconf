@@ -63,7 +63,7 @@ uci commit network
 
 
 uci add dhcp dhcp
-uci set dhcp.@dhcp[2].interface=br-lan
+uci set dhcp.@dhcp[2].interface=lan
 uci set dhcp.@dhcp[2].start=10
 uci set dhcp.@dhcp[2].limit=253
 uci set dhcp.@dhcp[2].leasetime=1h

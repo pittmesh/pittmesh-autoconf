@@ -19,6 +19,9 @@ opkg install luci luci-ssl pciutils luci-app-olsr luci-app-olsr-services luci-ap
 # Check for updates to any packages
 for i in `opkg list-upgradable|cut -d " " -f 1`;do opkg install $i;done
 
+# Set Hostname
+uci set system.@system[0].hostname=ar150-STRING-2401
+
 # Disable the RFC1918 filter in the webserver which would prevent you from accessing 100. mesh nodes.
 uci set uhttpd.main.rfc1918_filter=0; uci commit uhttpd
 
@@ -49,7 +52,7 @@ uci commit dhcp
 chmod 777 mac2ip.ash
 
 ipMESH=$(./mac2ip.ash $(cat /sys/class/net/eth0/address));
-ipWLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
+ipLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
 ipHNA=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).0");
 
 # Set up interfaces and use the mac2ip script's conversions as IP addresses.
@@ -61,7 +64,7 @@ uci set network.mesh.netmask=255.192.0.0
 # Note: because we originally wrote the script for another device, we're calling the wlan variable. on ar150's the wlan and lan are bridged.
 uci set network.lan=interface
 uci set network.lan.proto=static
-uci set network.lan.ipaddr=`echo $ipWLAN`
+uci set network.lan.ipaddr=`echo $ipLAN`
 uci set network.lan.netmask=255.255.255.0
 uci set network.lan._orig_ifname=eth1
 uci set network.lan._orig_bridge=true

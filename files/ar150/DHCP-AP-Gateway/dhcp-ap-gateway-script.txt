@@ -39,7 +39,7 @@ uci set uhttpd.main.rfc1918_filter=0; uci commit uhttpd
 /etc/init.d/odhcpd disable
 
 # Set snmp public community to PittMeshSNMP which will be autodiscovered by Meta Mesh's Cacti server.
-uci set snmpd.public.community=PittmeshSNMP
+uci set snmpd.public.community=PittMeshSNMP
 /etc/init.d/snmpd enable
 
 # Set the timeserver to a node host on Mount Oliver who has a stratum 0 time server and set logs to go to Meta Mesh.

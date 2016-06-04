@@ -61,12 +61,21 @@ chmod 777 mac2ip.ash
 ipMESH=$(./mac2ip.ash $(cat /sys/class/net/eth0/address));
 ipLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
 ipHNA=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).0");
+#This needs to be setup with the correct string to set ip address 
+#ipETHERMESH=100.64.239.78
 
 # Set up interfaces and use the mac2ip script's conversions as IP addresses.
 uci set network.mesh=interface
 uci set network.mesh.proto=static
 uci set network.mesh.ipaddr=`echo $ipMESH`
 uci set network.mesh.netmask=255.192.0.0
+
+#Set up ethermesh interface
+uci set network.ethermesh=interface
+uci set network.ethermesh.proto=static
+uci set network.ethermesh.ifname=eth0
+uci set network.ethermesh.netmask=255.192.0.0
+uci set network.ethermesh.ipaddr=`echo $ipETHERMESH`
 
 # Note: because we originally wrote the script for another device, we're calling the wlan variable. on ar150's the wlan and lan are bridged.
 uci set network.lan=interface

@@ -107,7 +107,7 @@ uci set wireless.@wifi-iface[1].encryption=none
 uci set wireless.@wifi-iface[1].ssid=PittMesh-Backhaul
 uci set wireless.@wifi-iface[1].mode=adhoc
 uci set wireless.@wifi-iface[1].network=mesh
-uci set wireless.@wifi-iface[0].network='wlan lan'
+uci set wireless.@wifi-iface[0].network='lan'
 uci set wireless.@wifi-iface[0].ssid=PittMesh-NEWNODE-2401
 uci set wireless.@wifi-iface[0].disabled=0
 uci commit wireless

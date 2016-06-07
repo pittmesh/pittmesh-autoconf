@@ -90,12 +90,10 @@ uci set network.lan.bridge=1
 uci commit network
 
 
-uci add dhcp dhcp
-uci set dhcp.@dhcp[2].interface=lan
-uci set dhcp.@dhcp[2].start=10
-uci set dhcp.@dhcp[2].limit=253
-uci set dhcp.@dhcp[2].leasetime=1h
-uci set dhcp.@dhcp[2].force=1
+uci set dhcp.lan.start=10
+uci set dhcp.lan.limit=253
+uci set dhcp.lan.leasetime=1h
+uci set dhcp.lan.force=1
 uci commit dhcp
 
 # Set up the WiFi. Please change the SSID to PittMesh-youraddress-2401 for the first device, PittMesh-youraddress-2402 for the second device and so on. Max TX rate for the ar150 is 18dBm.

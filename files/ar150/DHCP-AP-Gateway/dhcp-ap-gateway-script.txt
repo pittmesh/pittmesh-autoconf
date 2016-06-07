@@ -56,6 +56,7 @@ uci set dhcp.@dnsmasq[0].server=96.89.42.101
 uci commit dhcp
 
 # Download the mac2ip conversion to convert your MAC address to IP's so that you can be sure they are unique on the mesh.
+wget https://raw.githubusercontent.com/pittmesh/pittmesh-autoconf/master/files/mac2ip.ash
 chmod 777 mac2ip.ash
 
 ipMESH=$(./mac2ip.ash $(cat /sys/class/net/eth0/address));

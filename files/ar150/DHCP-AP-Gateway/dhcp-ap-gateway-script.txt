@@ -89,7 +89,7 @@ uci set network.lan.force_link=1
 uci set network.lan.bridge=1
 uci commit network
 
-
+# Set DHCP server to give out leases over the bridged wlan and lan interface for 1 hour from 10-253 and force it.
 uci set dhcp.lan.start=10
 uci set dhcp.lan.limit=253
 uci set dhcp.lan.leasetime=1h

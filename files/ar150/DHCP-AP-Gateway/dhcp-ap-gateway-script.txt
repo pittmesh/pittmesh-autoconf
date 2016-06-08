@@ -138,42 +138,27 @@ uci set olsrd.@LoadPlugin[13].ignore=0
 uci commit olsrd
 
 # Set iptables rules to allow forwarding between interfaces.
-uci set firewall.@defaults[0].forward=ACCEPT
-uci set firewall.@zone[0].masq=1
-uci delete firewall.@zone[1]
-uci delete firewall.@forwarding[0]
-uci add firewall zone
-uci set firewall.@zone[1].input=ACCEPT
-uci set firewall.@zone[1].forward=ACCEPT
-uci set firewall.@zone[1].output=ACCEPT
-uci set firewall.@zone[1].name=wlan
-uci set firewall.@zone[1].network=wlan
-uci add firewall forwarding
-uci set firewall.@forwarding[0].dest=wlan
-uci set firewall.@forwarding[0].src=lan
 uci add firewall zone
 uci set firewall.@zone[2].input=ACCEPT
 uci set firewall.@zone[2].forward=ACCEPT
 uci set firewall.@zone[2].output=ACCEPT
-
 uci set firewall.@zone[2].name=mesh
-uci set firewall.@zone[2].network=mesh
+uci set firewall.@zone[2].network='ethermesh mesh'
 uci add firewall forwarding
-uci set firewall.@forwarding[1].dest=wlan
-uci set firewall.@forwarding[1].src=mesh
+uci set firewall.@forwarding[1].dest=mesh
+uci set firewall.@forwarding[1].src=lan
 uci add firewall forwarding
-uci set firewall.@forwarding[2].dest=mesh
-uci set firewall.@forwarding[2].src=lan
+uci set firewall.@forwarding[2].dest=lan
+uci set firewall.@forwarding[2].src=mesh
 uci add firewall forwarding
-uci set firewall.@forwarding[3].dest=mesh
-uci set firewall.@forwarding[3].src=wlan
-uci delete firewall.@rule[0]
-uci delete firewall.@rule[1]
-uci delete firewall.@rule[2]
-uci commit firewall
-uci delete firewall.@rule[0]
-uci delete firewall.@rule[0]
-uci commit firewall
+uci set firewall.@forwarding[3].dest=wan
+uci set firewall.@forwarding[3].src=mesh
+uci add firewall forwarding
+uci set firewall.@forwarding[4].dest=lan
+uci set firewall.@forwarding[4].src=wan
+uci add firewall forwarding
+uci set firewall.@forwarding[5].dest=mesh
+uci set firewall.@forwarding[5].src=wan
 
 # Set custom firewall rules to disallow access to certain IP addresses typically used for private home networks. If you want to share a server on your home network, run OLSR on it and mesh it over ethernet with a 100. address OR connect it directly to a PittMesh router's LAN port and give it a static address between 10.x.x.2 and 9 (.254 is also available by default)
 echo iptables -I FORWARD -i wlan0-1 -d 192.168.0.0/16 -j DROP >> /etc/firewall.user

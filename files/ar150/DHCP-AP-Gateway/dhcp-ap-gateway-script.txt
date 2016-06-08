@@ -10,12 +10,12 @@
 
 # Update where OpenWRT pulls updates from.
 rm /etc/opkg/distfeeds.conf
-echo src/gz chaos_calmer_base http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/base>> /etc/opkg.conf
-echo src/gz chaos_calmer_luci http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/luci>> /etc/opkg.conf
-echo src/gz chaos_calmer_management http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/management>> /etc/opkg.conf
-echo src/gz chaos_calmer_packages http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/packages>> /etc/opkg.conf
-echo src/gz chaos_calmer_routing http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/routing>> /etc/opkg.conf
-echo src/gz chaos_calmer_telephony http://openwrt.metamesh.org/chaos_calmer/15.05/ar71xx/generic/packages/telephony>> /etc/opkg.conf
+echo src/gz chaos_calmer_base http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/base>> /etc/opkg.conf
+echo src/gz chaos_calmer_luci http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/luci>> /etc/opkg.conf
+echo src/gz chaos_calmer_management http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/management>> /etc/opkg.conf
+echo src/gz chaos_calmer_packages http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/packages>> /etc/opkg.conf
+echo src/gz chaos_calmer_routing http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/routing>> /etc/opkg.conf
+echo src/gz chaos_calmer_telephony http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/telephony>> /etc/opkg.conf
 echo src/gz pittmesh http://openwrt.metamesh.org/pittmesh>> /etc/opkg.conf
 
 opkg update

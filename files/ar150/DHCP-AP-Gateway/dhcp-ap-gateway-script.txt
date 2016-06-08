@@ -162,6 +162,7 @@ uci set firewall.@forwarding[4].src=wan
 uci add firewall forwarding
 uci set firewall.@forwarding[5].dest=mesh
 uci set firewall.@forwarding[5].src=wan
+uci commit firewall
 
 # Set custom firewall rules to disallow access to certain IP addresses typically used for private home networks. If you want to share a server on your home network, run OLSR on it and mesh it over ethernet with a 100. address OR connect it directly to a PittMesh router's LAN port and give it a static address between 10.x.x.2 and 9 (.254 is also available by default)
 echo iptables -I FORWARD -i wlan0-1 -d 192.168.0.0/16 -j DROP >> /etc/firewall.user

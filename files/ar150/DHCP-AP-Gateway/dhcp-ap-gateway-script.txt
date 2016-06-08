@@ -132,8 +132,9 @@ uci set olsrd.@Interface[1].interface=ethermesh
 uci set olsrd.@olsrd[0].LinkQualityAlgorithm=etx_ffeth
 
 # Enable olsrd plugins
-uci set olsrd.@LoadPlugin[6].ignore=0
-uci set olsrd.@LoadPlugin[14].ignore=0
+echo "config LoadPlugin" >> /etc/config/olsrd
+echo "Option library olsrd_mdns.so.1.0.1" >> /etc/config/olsrd
+uci set olsrd.@LoadPlugin[13].ignore=0
 uci commit olsrd
 
 # Set iptables rules to allow forwarding between interfaces.

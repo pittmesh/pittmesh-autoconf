@@ -76,6 +76,7 @@ uci set network.ethermesh=interface
 uci set network.ethermesh.proto=static
 uci set network.ethermesh.ifname=eth0
 uci set network.ethermesh.netmask=255.192.0.0
+### REPLACE THIS IP ADDRESS. IT IS A PLACEHOLDER WHILE WE UPDATE MAC2IP.ASH
 uci set network.ethermesh.ipaddr=100.111.190.78
 
 # Note: because we originally wrote the script for another device, we're calling the wlan variable. on ar150's the wlan and lan are bridged.

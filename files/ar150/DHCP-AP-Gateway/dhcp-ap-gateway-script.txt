@@ -55,17 +55,16 @@ uci commit system
 uci set dhcp.@dnsmasq[0].server=96.89.42.101
 uci commit dhcp
 
-# Download the mac2ip conversion to convert your MAC address to IP's so that you can be sure they are unique on the mesh.
-wget https://raw.githubusercontent.com/pittmesh/pittmesh-autoconf/master/files/mac2ip.ash
-chmod 777 mac2ip.ash
+# Download the mm-mac2ipv4 conversion to convert your MAC address to IP's so that you can be sure they are unique on the mesh.
+wget https://raw.githubusercontent.com/pittmesh/ip-calculator/master/mm-mac2ipv4.sh
+chmod 777 mm-mac2ipv4.sh
 
-ipMESH=$(./mac2ip.ash $(cat /sys/class/net/eth0/address));
+ipMESH=$(./mm-mac2ipv4.sh $(cat /sys/class/net/eth0/address));
 ipLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
 ipHNA=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).0");
-#This needs to be setup with the correct string to set ip address 
-#ipETHERMESH=100.64.239.78
+ipETHERMESH=100.$(expr $(echo $ipMESH|cut -d "." -f 4) % 64 + 64).$(echo $ipMESH|cut -d "." -f 3).$(echo $ipMESH|cut -d "." -f 2)
 
-# Set up interfaces and use the mac2ip script's conversions as IP addresses.
+# Set up interfaces and use the mm-mac2ipv4 script's conversions as IP addresses.
 uci set network.mesh=interface
 uci set network.mesh.proto=static
 uci set network.mesh.ipaddr=`echo $ipMESH`
@@ -76,8 +75,7 @@ uci set network.ethermesh=interface
 uci set network.ethermesh.proto=static
 uci set network.ethermesh.ifname=eth0
 uci set network.ethermesh.netmask=255.192.0.0
-### REPLACE THIS IP ADDRESS. IT IS A PLACEHOLDER WHILE WE UPDATE MAC2IP.ASH
-uci set network.ethermesh.ipaddr=100.111.190.78
+uci set network.ethermesh.ipaddr=$ipETHERMESH
 
 # Note: because we originally wrote the script for another device, we're calling the wlan variable. on ar150's the wlan and lan are bridged.
 uci set network.lan=interface

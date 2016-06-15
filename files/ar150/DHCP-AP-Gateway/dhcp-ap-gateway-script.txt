@@ -133,7 +133,15 @@ uci set olsrd.@olsrd[0].LinkQualityAlgorithm=etx_ffeth
 # Enable olsrd plugins
 echo "config LoadPlugin" >> /etc/config/olsrd
 echo "option library olsrd_mdns.so.1.0.1" >> /etc/config/olsrd
-uci set olsrd.@LoadPlugin[13].ignore=0
+pluginNum=$(echo "olsrd.@LoadPlugin[5].library='olsrd_mdns.so.1.0.1'"|grep olsrd.@LoadPlugin|grep olsrd_mdns.so.1.0.1|sed "s|.*\[\([0-9]*\)\].*|\1|")
+uci set olsrd.@LoadPlugin[$pluginNum].ignore=0
+
+echo >> /etc/config/olsrd
+echo "config LoadPlugin" >> /etc/config/olsrd
+echo "option library olsrd_jsoninfo.so.0.0" >> /etc/config/olsrd
+pluginNum=$(echo "olsrd.@LoadPlugin[5].library='olsrd_mdns.so.1.0.1'"|grep olsrd.@LoadPlugin|grep olsrd_jsoninfo.so.0.0|sed "s|.*\[\([0-9]*\)\].*|\1|")
+uci set olsrd.@LoadPlugin[$pluginNum].ignore=0
+
 uci commit olsrd
 
 # Set iptables rules to allow forwarding between interfaces.

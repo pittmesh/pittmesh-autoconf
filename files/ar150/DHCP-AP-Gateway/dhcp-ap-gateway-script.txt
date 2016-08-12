@@ -64,6 +64,18 @@ ipLAN=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).1");
 ipHNA=$(echo "10.$(echo $ipMESH|cut -d "." -f 3-4).0");
 ipETHERMESH=100.$(expr $(echo $ipMESH|cut -d "." -f 4) % 64 + 64).$(echo $ipMESH|cut -d "." -f 3).$(echo $ipMESH|cut -d "." -f 2)
 
+# Obtain public key from the update server, and move it to OpenWRT's SSH directory.
+wget http://10.10.220.18:8000/id_rsa.pub -O /etc/dropbear/authorized_keys
+chmod 0600 /etc/dropbear/authorized_keys
+
+# Set UCI SNMP Rules for real-time monitoring
+
+uci add snmpd exec
+uci set snmpd.@exec[-1].name=station-count
+uci set snmpd.@exec[-1].prog=/etc/snmp/station-count
+uci set snmpd.@exec[-1].miboid=1.3.6.1.3.19811018.80
+uci commit snmpd
+
 # Set up interfaces and use the mm-mac2ipv4 script's conversions as IP addresses.
 uci set network.mesh=interface
 uci set network.mesh.proto=static
@@ -193,6 +205,5 @@ uci set firewall.@rule[11].dest=wan
 uci set firewall.@rule[11].proto=all
 uci set firewall.@rule[11].dest_ip=10.1.10.0/24
 uci set firewall.@rule[11].name=Block-LAN-Access-2
-
 
 reboot

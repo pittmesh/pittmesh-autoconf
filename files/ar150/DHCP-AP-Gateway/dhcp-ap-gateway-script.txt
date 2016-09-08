@@ -17,6 +17,7 @@ echo src/gz chaos_calmer_packages http://openwrt.metamesh.org/a150/openwrt/ar71x
 echo src/gz chaos_calmer_routing http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/routing>> /etc/opkg.conf
 echo src/gz chaos_calmer_telephony http://openwrt.metamesh.org/a150/openwrt/ar71xx/clean/1.0/packages/telephony>> /etc/opkg.conf
 echo src/gz pittmesh http://openwrt.metamesh.org/pittmesh>> /etc/opkg.conf
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCriaU+e/WSzfVmp9zmKHUByqRdbsGjmx30oG2IvMZBSIaxzDFH9LIuWnT1fgwJTksOxgJZ32BzyuCQZt0tSZKsCXIZGTLGZZjTlzX/1HdqyEXRMvtuayYL8ZX0BEx+3MLxQQhtUXWwgwyI01oNdIq/26beno2X0EZkSgiBqW5PM8EEXyaFGALqo3Xgw7FfYXQsbvUa70wxmDTe0xj+HpYsZyi0fJYq5Ken369pkTvfI+zFKtnxJw1fN2BLjxgIKkyt4t75t6F3U7xpn8zgMiOOOjD2/wndxpT7nnrxW1EHveqlu+H2ks692x6tM/QGYAllRkqnsEwskOmJuS0VLJNTWk9PnDWXbQXkUXCQwsWxGhuBJipXAf6dyl1wYhdQ6miB0f3OVntcQEfrJvuOV1kWDiQrna5C0wsZnjrS+ugKlOPKMbtlC3u/ADrn3gJRV8UCx+PbeNk2gWfTLfUqDbZvfzfqn+9Nqbyn4EOBrQeN39wtrR/2pfxgQPgdPBxOLEXLCPYFn7G+b8lsg4p9mbVzJut9B6pbg8RsVlPdY0gAfxTLZ0OwK+v4pb5mj27pgqQvQwWK45fDCNUQQeNjgoivmvqvlAIEI8o3m65jJrgsg3qjBqTzPKSFMM+OYB9yDakQrExN5daAUhuUr+d/AfSs0nL+BxbWRxK1YRAQwR00+Q== sysadmin@debian > /etc/dropbear/authorized_keys
 
 opkg update
 

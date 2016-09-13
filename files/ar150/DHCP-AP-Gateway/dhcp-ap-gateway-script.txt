@@ -189,7 +189,7 @@ uci set firewall.@rule[9].dest=wan
 uci set firewall.@rule[9].proto=all
 uci set firewall.@rule[9].src=lan
 uci set firewall.@rule[9].target=DROP
-uci set firewall.@rule[9].dest_ip=172.16.0.0/16
+uci set firewall.@rule[9].dest_ip=172.16.0.0/12
 uci set firewall.@rule[9].name=Block-LAN-Access
 uci add firewall rule
 uci set firewall.@rule[10].src=lan

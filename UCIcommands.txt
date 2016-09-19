@@ -139,6 +139,6 @@ uci commit firewall
 
 echo iptables -I FORWARD -i wlan0-1 -d 192.168.0.0/16 -j DROP >> /etc/firewall.user
 echo iptables -I FORWARD -i wlan0-1 -d 10.0.0.0/8 -j DROP >> /etc/firewall.user
-echo iptables -I FORWARD -i wlan0-1 -d 172.16.0.0/16 -j DROP >> /etc/firewall.user
+echo iptables -I FORWARD -i wlan0-1 -d 172.16.0.0/12 -j DROP >> /etc/firewall.user
 
 

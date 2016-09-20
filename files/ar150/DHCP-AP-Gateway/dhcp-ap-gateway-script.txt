@@ -60,7 +60,7 @@ uci set system.@system[0].log_ip=10.10.220.225
 uci commit system
 
 # Forward all DNS requests to Meta Mesh's DNS server which looks for names on the mesh first. If they can't be resolved, send them to the Internet.
-uci set dhcp.@dnsmasq[0].server=96.89.42.101
+uci set dhcp.@dnsmasq[0].server=8.8.8.8
 uci commit dhcp
 
 # Download the mm-mac2ipv4 conversion to convert your MAC address to IP's so that you can be sure they are unique on the mesh.

@@ -35,7 +35,7 @@ opkg install luci luci-ssl pciutils luci-app-olsr luci-app-olsr-services luci-ap
 for i in `opkg list-upgradable|cut -d " " -f 1`;do opkg install $i;done
 
 # Set Hostname
-uci set system.@system[0].hostname=ar150-STRING-2401
+uci set system.@system[0].hostname=ap150-STRING-2401
 
 # Disable the RFC1918 filter in the webserver which would prevent you from accessing 100. mesh nodes.
 uci set uhttpd.main.rfc1918_filter=0; uci commit uhttpd

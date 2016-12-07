@@ -211,7 +211,6 @@ uci set firewall.@rule[11].dest=wan
 uci set firewall.@rule[11].proto=all
 uci set firewall.@rule[11].dest_ip=10.0.0.0/8
 uci set firewall.@rule[11].name=Block-LAN-Access-2
-uci add firewall rule
 uci commit firewall
 
 reboot

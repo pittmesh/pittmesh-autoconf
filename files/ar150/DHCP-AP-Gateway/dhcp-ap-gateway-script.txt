@@ -31,6 +31,12 @@ opkg update
 # Install a whole mess of packages to use with OLSR, iptables, and supporting packages.
 opkg install luci luci-ssl pciutils luci-app-olsr luci-app-olsr-services luci-app-olsr-viz olsrd olsrd-mod-arprefresh olsrd-mod-bmf olsrd-mod-dot-draw olsrd-mod-dyn-gw olsrd-mod-dyn-gw-plain olsrd-mod-httpinfo olsrd-mod-mdns olsrd-mod-nameservice olsrd-mod-p2pd olsrd-mod-pgraph olsrd-mod-secure olsrd-mod-txtinfo olsrd-mod-watchdog olsrd-mod-quagga wireless-tools luci-lib-json kmod-ipip ethtool snmpd iptables-mod-extra iptables-mod-iface iptables-mod-iprange wget ca-certificates openvpn-openssl openvpn-easy-rsa
 
+# Get station-count script from our server, make it executable, and add autostart at /etc/rc.local.
+
+wget http://10.10.220.18:8000/station-count.sh >> /etc/station-count.sh
+chmod +x /etc/station-count.sh
+awk '/exit 0/{print "/etc/station-count.sh &"}1' /etc/rc.local > /etc/rc.local.tmp && mv /etc/rc.local.tmp /etc/rc.local
+
 # Check for updates to any packages
 for i in `opkg list-upgradable|cut -d " " -f 1`;do opkg install $i;done
 

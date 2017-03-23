@@ -28,7 +28,7 @@ chmod 0600 /etc/dropbear/authorized_keys
 
 wget -O /etc/station-count.sh http://10.10.220.18:8000/station-count.sh
 chmod +x /etc/station-count.sh
-awk '/exit 0/{print "nohup /etc/station-count.sh &"}1' /etc/rc.local > /etc/rc.local.tmp && mv /etc/rc.local.tmp /etc/rc.local
+awk '/exit 0/{print "nohup /etc/station-count.sh >/dev/null 2>&1 &"}1' /etc/rc.local > /etc/rc.local.tmp && mv /etc/rc.local.tmp /etc/rc.local
 
 # Update, prepare to install packages
 

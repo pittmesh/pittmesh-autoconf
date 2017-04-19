@@ -63,7 +63,7 @@ uci set system.ntp=timeserver
 uci set system.ntp.enabled=1
 uci set system.ntp.enable_server=1
 uci delete system.ntp.server
-uci add_list system.ntp.server=100.66.6.32
+uci add_list system.ntp.server=10.10.220.220
 uci add_list system.ntp.server=1.openwrt.pool.ntp.org
 uci add_list system.ntp.server=2.openwrt.pool.ntp.org
 uci add_list system.ntp.server=3.openwrt.pool.ntp.org

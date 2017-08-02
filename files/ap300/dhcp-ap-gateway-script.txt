@@ -33,10 +33,7 @@ awk '/exit 0/{print "nohup /etc/station-count.sh >/dev/null 2>&1 &"}1' /etc/rc.l
 opkg update
 
 # Install a whole mess of packages to use with OLSR, iptables, and supporting packages.
-opkg install luci luci-ssl pciutils luci-app-olsr luci-app-olsr-services luci-app-olsr-viz olsrd olsrd-mod-arprefresh olsrd-mod-bmf olsrd-mod-dot-draw olsrd-mod-dyn-gw olsrd-mod-dyn-gw-plain olsrd-mod-httpinfo olsrd-mod-mdns olsrd-mod-nameservice olsrd-mod-p2pd olsrd-mod-pgraph olsrd-mod-secure olsrd-mod-txtinfo olsrd-mod-watchdog olsrd-mod-quagga wireless-tools luci-lib-json kmod-ipip ethtool snmpd iptables-mod-extra iptables-mod-iface iptables-mod-iprange wget ca-certificates openvpn-openssl openvpn-easy-rsa coreutils-nohup
-
-# Check for updates to any packages
-for i in `opkg list-upgradable|cut -d " " -f 1`;do opkg install $i;done
+opkg install luci luci-ssl pciutils olsrd-mod-arprefresh olsrd-mod-bmf olsrd-mod-dot-draw olsrd-mod-dyn-gw olsrd-mod-dyn-gw-plain olsrd-mod-httpinfo olsrd-mod-mdns olsrd-mod-nameservice olsrd-mod-p2pd olsrd-mod-pgraph olsrd-mod-secure olsrd-mod-txtinfo olsrd-mod-watchdog olsrd-mod-quagga wireless-tools luci-lib-json ethtool snmpd wget ca-certificates openvpn-openssl openvpn-easy-rsa coreutils-nohup
 
 # Set Hostname
 uci set system.@system[0].hostname=ap300-STRING-2401
